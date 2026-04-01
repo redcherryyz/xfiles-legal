@@ -13,7 +13,7 @@
     --border: #3a1f24;
     --text: #e8d5d5;
     --muted: #a07a7a;
-    --accent: #c41e3a;           /* Blood red */
+    --accent: #c41e3a;
     --accent-glow: #c41e3a55;
     --accent-dark: #8b1a2b;
     --heading: #ffdddd;
@@ -23,15 +23,43 @@
 
   body {
     font-family: 'Outfit', sans-serif;
-    background: var(--bg);
     color: var(--text);
     line-height: 1.75;
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
-  .grain {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.05;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Animated Blood Flow Background */
+  .blood-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: 
+      linear-gradient(180deg, #0c0204 0%, #2a0a0f 40%, #0c0204 100%),
+      radial-gradient(circle at 30% 20%, rgba(196, 30, 58, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 70% 60%, rgba(196, 30, 58, 0.12) 0%, transparent 50%);
+    animation: bloodFlow 25s linear infinite;
+  }
+
+  .blood-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(transparent, rgba(196, 30, 58, 0.08)),
+      linear-gradient(90deg, transparent, rgba(196, 30, 58, 0.06), transparent);
+    animation: bloodFlow2 40s linear infinite;
+    opacity: 0.6;
+  }
+
+  @keyframes bloodFlow {
+    0%   { background-position: 0% 0%, 30% 20%, 70% 60%; }
+    100% { background-position: 0% 100%, 35% 80%, 65% 30%; }
+  }
+
+  @keyframes bloodFlow2 {
+    0%   { transform: translateY(-20%); }
+    100% { transform: translateY(20%); }
   }
 
   header {
@@ -67,7 +95,7 @@
     position: sticky;
     top: 0;
     z-index: 10;
-    background: var(--bg);
+    background: rgba(12, 2, 4, 0.95);
     border-bottom: 1px solid var(--border);
     backdrop-filter: blur(12px);
   }
@@ -153,8 +181,7 @@
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 0 25px #5865F2,
-                0 0 50px rgba(88, 101, 242, 0.5);
+    box-shadow: 0 0 25px #5865F2, 0 0 50px rgba(88, 101, 242, 0.5);
     text-decoration: none;
     position: relative;
   }
@@ -162,8 +189,7 @@
   .discord-btn:hover {
     background: #4752c4;
     transform: translateY(-4px);
-    box-shadow: 0 0 35px #5865F2,
-                0 0 70px rgba(88, 101, 242, 0.7);
+    box-shadow: 0 0 35px #5865F2, 0 0 70px rgba(88, 101, 242, 0.7);
   }
 
   footer {
@@ -185,7 +211,7 @@
 </head>
 <body>
 
-<div class="grain"></div>
+<div class="blood-bg"></div>
 
 <header>
   <h1><span>X</span> Files Bot</h1>
@@ -201,11 +227,8 @@
 
 <!-- TERMS OF SERVICE -->
 <section id="tos" class="active">
-
 <div class="effective">Effective Date: April 1, 2026</div>
-
 <h2>Terms of Service</h2>
-
 <p>These Terms of Service ("Terms") govern your use of the X Files Discord bot ("the Bot", "we", "our"). By inviting the Bot to your Discord server or interacting with its features, you agree to be bound by these Terms.</p>
 
 <h3>1. Eligibility</h3>
@@ -238,20 +261,15 @@
 <div class="contact-box">
   <p><strong>Contact:</strong> For questions about these Terms, reach out via our Discord support server or email the bot owner directly.</p>
 </div>
-
 </section>
 
 <!-- PRIVACY POLICY -->
 <section id="privacy">
-
 <div class="effective">Effective Date: April 1, 2026</div>
-
 <h2>Privacy Policy</h2>
-
 <p>This Privacy Policy describes how the X Files Discord bot ("the Bot", "we", "our") collects, uses, and protects information when you use our service.</p>
 
 <h3>1. Information We Collect</h3>
-
 <p><strong>Server Configuration Data:</strong> When a server administrator runs the /setup command, the Bot stores: the Discord server (guild) ID, the selected channel name font style, a mapping of channel names to channel IDs, a notification channel ID, and a detailed log channel ID. This data is necessary for the Bot to function.</p>
 
 <p><strong>Content Deduplication Hashes:</strong> The Bot stores cryptographic hashes (not the content itself) of files it has posted to prevent duplicate uploads. These hashes cannot be reversed to reconstruct the original content.</p>
@@ -259,41 +277,32 @@
 <p><strong>RedGifs Content IDs:</strong> The Bot stores RedGifs content identifiers it has already processed to avoid re-fetching the same content. These are public IDs from the RedGifs platform.</p>
 
 <h3>2. Information We Do NOT Collect</h3>
-
 <p>The Bot does not collect, store, or process: usernames or user IDs of server members (except the hardcoded bot owner ID for administrative commands), message content from users, direct messages, personal information such as email addresses or IP addresses, browsing habits or usage analytics of individual users, or voice channel data. The Bot does not read, log, or analyze any messages sent by users in Discord channels.</p>
 
 <h3>3. Data Storage</h3>
-
 <p>All data is stored locally on the Bot host machine in JSON files within the Bot's installation directory. No data is transmitted to external databases, cloud services, or third-party analytics platforms. Data is organized in per-server configuration files identified only by Discord guild ID.</p>
 
 <h3>4. Data Retention</h3>
-
 <p>Server configuration data is retained as long as the Bot remains in the server. When the Bot is removed from a server, the configuration data remains on disk but is no longer actively used. Content hashes are capped at 5,000 per channel per server and older entries are automatically pruned. RedGifs seen-content IDs are capped at 5,000 per content category.</p>
 
 <h3>5. Data Deletion</h3>
-
 <p>Server administrators may request deletion of their server's data by contacting the Bot owner. Removing the Bot from a server stops all data collection for that server immediately. The Bot owner can manually delete per-server configuration files upon request.</p>
 
 <h3>6. Third-Party Services</h3>
-
-<p>The Bot interacts with the following third-party services: Discord (via the Discord API, governed by Discord's own Privacy Policy) and RedGifs (for sourcing publicly available content, governed by RedGifs' Privacy Policy and Terms of Service). The Bot does not share any server or user data with these services beyond what is required for basic API functionality (e.g., sending messages to Discord channels, searching RedGifs for content).</p>
+<p>The Bot interacts with the following third-party services: Discord (via the Discord API, governed by Discord's own Privacy Policy) and RedGifs (for sourcing publicly available content, governed by RedGifs' Privacy Policy and Terms of Service). The Bot does not share any server or user data with these services beyond what is required for basic API functionality.</p>
 
 <h3>7. Welcome DM Feature</h3>
-
 <p>If the Bot owner enables the welcome DM feature, the Bot will send a pre-configured message to new members joining servers where the Bot is present. This message is identical for all users and does not involve collecting or storing any information about the recipient. Users who have DMs disabled will not receive this message.</p>
 
 <h3>8. Children's Privacy</h3>
-
 <p>The Bot is not intended for use by anyone under the age of 18. We do not knowingly collect data from minors. The Bot exclusively distributes adult content and should only be used in age-restricted Discord servers.</p>
 
 <h3>9. Changes to This Policy</h3>
-
 <p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated effective date.</p>
 
 <div class="contact-box">
   <p><strong>Contact:</strong> For privacy concerns, data deletion requests, or questions about this policy, reach out via our Discord support server or email the bot owner directly.</p>
 </div>
-
 </section>
 
 </main>
@@ -318,7 +327,6 @@ function switchTab(tab) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Handle direct links
 if (window.location.hash === '#privacy') switchTab('privacy');
 </script>
 
